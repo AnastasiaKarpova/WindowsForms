@@ -15,19 +15,27 @@ namespace Clock
 	{
 		ColorDialog BackColorDialog;
 		ColorDialog ForeColorDialog;
-		PrivateFontCollection font;
+		//PrivateFontCollection font;
 		public MainForm()
 		{
 			InitializeComponent();
 			//fontsProjects();
 			//fonts();
-
+			LoadFont();
+			//labelTime.Font = new Font(font.Families[0], 31);
 			labelTime.BackColor = Color.AliceBlue;
 
 			BackColorDialog = new ColorDialog();
 			ForeColorDialog = new ColorDialog();
 			this.Location = new Point(Screen.PrimaryScreen.Bounds.Width - this.Width, 50);
-			
+			this.SetStyle
+				(
+				ControlStyles.UserPaint | ControlStyles.AllPaintingInWmPaint | 
+				ControlStyles.ResizeRedraw | ControlStyles.ContainerControl | 
+				ControlStyles.OptimizedDoubleBuffer | 
+				ControlStyles.SupportsTransparentBackColor | 
+				ControlStyles.DoubleBuffer, true
+				);
 		}
 
 		void SetVisibility(bool visible)
@@ -151,14 +159,17 @@ namespace Clock
 			}
 		}
 
-		private void fontsProjects()
-		{
-			this.font = new PrivateFontCollection();
-			this.font.AddFontFile("Font/5by7.ttf");
-		}
-		private void fonts()
-		{
-			labelTime.Font = new Font(font.Families[0], 31);
-		}
+		//private void fontsProjects()
+		//{
+		//	this.font = new PrivateFontCollection();
+		//	this.font.AddFontFile("Font/5by7.ttf");
+		//}
+		//private void fonts()
+		//{
+		//	labelTime.Font = new Font(font.Families[0], 31);
+		//}
+
+		private void LoadFont()
+		{ }
 	}
 }
