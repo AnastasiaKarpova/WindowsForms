@@ -36,14 +36,15 @@ namespace Clock
 				ControlStyles.SupportsTransparentBackColor | 
 				ControlStyles.DoubleBuffer, true
 				);
+			SetVisibility(false);
 		}
 
 		void SetVisibility(bool visible)
 		{
 			cbShowDate.Visible = visible;
 			cbShowWeekDay.Visible = visible;
-			cmBackColor.Visible = visible;
-			cmForeColor.Visible = visible;
+			//cmBackColor.Visible = visible;
+			//cmForeColor.Visible = visible;
 			btnHideControls.Visible = visible;
 			this.TransparencyKey = visible ? Color.Empty : this.BackColor;
 			this.FormBorderStyle = visible ? FormBorderStyle.FixedToolWindow : FormBorderStyle.None;
@@ -80,7 +81,8 @@ namespace Clock
 			//this.ShowInTaskbar = false;
 			//Color transparencyKey = this.TransparencyKey;
 
-			SetVisibility(false);	
+			//SetVisibility(false);	
+			SetVisibility(cmShowControls.Checked = false);
 		}
 
 		private void labelTime_DoubleClick(object sender, EventArgs e)
@@ -101,7 +103,8 @@ namespace Clock
 			//labelTime.BackColor = Color.AliceBlue;
 			//this.ShowInTaskbar = true;
 
-			SetVisibility(true);
+			//SetVisibility(true);
+			SetVisibility(cmShowControls.Checked = true);
 		}
 
 		private void cmExit_Click(object sender, EventArgs e)
@@ -141,22 +144,41 @@ namespace Clock
 			}
 		}
 
-		private void cmBackColor_Click(object sender, EventArgs e)
-		{
-			DialogResult result = BackColorDialog.ShowDialog(this);
-			if(result == DialogResult.OK)
-			{
-				labelTime.BackColor = BackColorDialog.Color;
-			}
-		}
+		//private void cmBackColor_Click(object sender, EventArgs e)
+		//{
+		//	DialogResult result = BackColorDialog.ShowDialog(this);
+		//	if (result == DialogResult.OK)
+		//	{
+		//		labelTime.BackColor = BackColorDialog.Color;
+		//	}
+		//}
 
-		private void cmForeColor_Click(object sender, EventArgs e)
+		//private void cmForeColor_Click(object sender, EventArgs e)
+		//{
+		//	DialogResult result = ForeColorDialog.ShowDialog(this);
+		//	if (result == DialogResult.OK)
+		//	{
+		//		labelTime.ForeColor = ForeColorDialog.Color;
+		//	}
+		//}
+		private void SetColor(object sender, EventArgs e)
 		{
-			DialogResult result = ForeColorDialog.ShowDialog(this);
-			if (result == DialogResult.OK)
+			ColorDialog dialog = new ColorDialog();
+			switch ((sender as ToolStripMenuItem).Text)
 			{
-				labelTime.ForeColor = ForeColorDialog.Color;
+				case "Background color": dialog.Color = labelTime.BackColor; break;
+				case "Foreground color": dialog.Color = labelTime.ForeColor; break;
 			}
+			
+			if(dialog.ShowDialog() == DialogResult.OK)
+			{
+				switch((sender as ToolStripMenuItem).Text)
+				{
+					case "Background color":labelTime.BackColor = dialog.Color; break; 
+					case "Foreground color":labelTime.ForeColor = dialog.Color; break; 
+				}
+			}
+			//Оператор 'as' значение слева приводит к типу справа
 		}
 
 		//private void fontsProjects()
@@ -171,5 +193,10 @@ namespace Clock
 
 		private void LoadFont()
 		{ }
+
+		private void cmShowControls_CheckedChanged(object sender, EventArgs e)
+		{
+			SetVisibility(cmShowControls.Checked);
+		}
 	}
 }

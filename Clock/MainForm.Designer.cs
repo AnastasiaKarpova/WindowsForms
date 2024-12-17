@@ -47,6 +47,7 @@
 			this.btnHideControls = new System.Windows.Forms.Button();
 			this.cbShowWeekDay = new System.Windows.Forms.CheckBox();
 			this.notifyIcon = new System.Windows.Forms.NotifyIcon(this.components);
+			this.cmShowControls = new System.Windows.Forms.ToolStripMenuItem();
 			this.contextMenu.SuspendLayout();
 			this.SuspendLayout();
 			// 
@@ -57,7 +58,7 @@
 			this.labelTime.Font = new System.Drawing.Font("Microsoft Sans Serif", 31.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
 			this.labelTime.Location = new System.Drawing.Point(13, 13);
 			this.labelTime.Name = "labelTime";
-			this.labelTime.Size = new System.Drawing.Size(264, 63);
+			this.labelTime.Size = new System.Drawing.Size(258, 61);
 			this.labelTime.TabIndex = 0;
 			this.labelTime.Text = "labelTime";
 			this.labelTime.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
@@ -68,6 +69,7 @@
 			this.contextMenu.ImageScalingSize = new System.Drawing.Size(20, 20);
 			this.contextMenu.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.cmTopmost,
+            this.cmShowControls,
             this.toolStripSeparator1,
             this.cmShowDate,
             this.cmShowWeekDay,
@@ -76,7 +78,7 @@
             this.toolStripSeparator2,
             this.cmExit});
 			this.contextMenu.Name = "contextMenu";
-			this.contextMenu.Size = new System.Drawing.Size(181, 142);
+			this.contextMenu.Size = new System.Drawing.Size(211, 194);
 			// 
 			// cmTopmost
 			// 
@@ -124,16 +126,18 @@
 			// cmBackColor
 			// 
 			this.cmBackColor.Name = "cmBackColor";
-			this.cmBackColor.Size = new System.Drawing.Size(224, 26);
+			this.cmBackColor.Size = new System.Drawing.Size(209, 26);
 			this.cmBackColor.Text = "Background color";
-			this.cmBackColor.Click += new System.EventHandler(this.cmBackColor_Click);
+			//this.cmBackColor.Click += new System.EventHandler(this.cmBackColor_Click);
+			this.cmBackColor.Click += new System.EventHandler(this.SetColor);
 			// 
 			// cmForeColor
 			// 
 			this.cmForeColor.Name = "cmForeColor";
-			this.cmForeColor.Size = new System.Drawing.Size(224, 26);
+			this.cmForeColor.Size = new System.Drawing.Size(209, 26);
 			this.cmForeColor.Text = "Foreground color";
-			this.cmForeColor.Click += new System.EventHandler(this.cmForeColor_Click);
+			//this.cmForeColor.Click += new System.EventHandler(this.cmForeColor_Click);
+			this.cmForeColor.Click += new System.EventHandler(this.SetColor);
 			// 
 			// toolStripSeparator2
 			// 
@@ -193,6 +197,14 @@
 			this.notifyIcon.Visible = true;
 			this.notifyIcon.DoubleClick += new System.EventHandler(this.notifyIcon_DoubleClick);
 			// 
+			// cmShowControls
+			// 
+			this.cmShowControls.CheckOnClick = true;
+			this.cmShowControls.Name = "cmShowControls";
+			this.cmShowControls.Size = new System.Drawing.Size(210, 24);
+			this.cmShowControls.Text = "Show controls";
+			this.cmShowControls.CheckedChanged += new System.EventHandler(this.cmShowControls_CheckedChanged);
+			// 
 			// MainForm
 			// 
 			this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
@@ -233,6 +245,7 @@
 		private System.Windows.Forms.ToolStripMenuItem cmColors;
 		private System.Windows.Forms.ToolStripMenuItem cmBackColor;
 		private System.Windows.Forms.ToolStripMenuItem cmForeColor;
+		private System.Windows.Forms.ToolStripMenuItem cmShowControls;
 	}
 }
 
