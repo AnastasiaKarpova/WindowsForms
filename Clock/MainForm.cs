@@ -198,5 +198,11 @@ namespace Clock
 		{
 			SetVisibility(cmShowControls.Checked);
 		}
+
+		private void cmChooseFont_Click(object sender, EventArgs e)
+		{
+			ChooseFontForm chooseFont = new ChooseFontForm();
+			chooseFont.ShowDialog();
+		}
 	}
 }
