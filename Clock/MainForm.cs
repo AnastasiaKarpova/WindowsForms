@@ -8,11 +8,15 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using System.Runtime.InteropServices;
 
 namespace Clock
 {
+	
 	public partial class MainForm : Form
 	{
+		ChooseFontForm fontDialog = null;
+		
 		ColorDialog BackColorDialog;
 		ColorDialog ForeColorDialog;
 		//PrivateFontCollection font;
@@ -23,7 +27,8 @@ namespace Clock
 			//fonts();
 			LoadFont();
 			//labelTime.Font = new Font(font.Families[0], 31);
-			labelTime.BackColor = Color.AliceBlue;
+			labelTime.BackColor = Color.LightBlue;
+			labelTime.ForeColor = Color.Blue;
 
 			BackColorDialog = new ColorDialog();
 			ForeColorDialog = new ColorDialog();
@@ -37,6 +42,9 @@ namespace Clock
 				ControlStyles.DoubleBuffer, true
 				);
 			SetVisibility(false);
+			cmShowConsole.Checked=true;
+			fontDialog = new ChooseFontForm();
+			
 		}
 
 		void SetVisibility(bool visible)
@@ -201,8 +209,23 @@ namespace Clock
 
 		private void cmChooseFont_Click(object sender, EventArgs e)
 		{
-			ChooseFontForm chooseFont = new ChooseFontForm();
-			chooseFont.ShowDialog();
+			//ChooseFontForm chooseFont = new ChooseFontForm();
+			//chooseFont.ShowDialog();
+			if (fontDialog.ShowDialog() == DialogResult.OK)
+					labelTime.Font = fontDialog.Font;
 		}
+
+		private void cmShowConsole_CheckedChanged(object sender, EventArgs e)
+		{
+			if ((sender as ToolStripMenuItem).Checked)
+				AllocConsole();
+			else
+				FreeConsole();
+		}
+		[DllImport("kernel32.dll")]
+		public static extern bool AllocConsole();
+
+		[DllImport("kernel32.dll")]
+		public static extern bool FreeConsole();
 	}
 }
