@@ -16,6 +16,7 @@ namespace Clock
 	public partial class ChooseFontForm : Form
 	{
 		public Font Font { get; set; }
+		public string Filename { get; set; }
 		//System.Drawing.Text.InstalledFontCollection fonts = new System.Drawing.Text.InstalledFontCollection();
 		public ChooseFontForm()
 		{
@@ -23,10 +24,18 @@ namespace Clock
 			LoadFonts();
 			cbFonts.SelectedIndex = 0;
 		}
-
+		public ChooseFontForm (string font_name, int font_size)
+		{
+			InitializeComponent();
+			Filename = font_name;
+			nudFontSize.Value = font_size;
+			LoadFonts();
+			cbFonts.SelectedIndex = cbFonts.Items.IndexOf(Filename);
+			Font = labelExample.Font;
+		}
 		void LoadFonts()
 		{
-			Directory.SetCurrentDirectory("..\\..\\Fonts");
+			//Directory.SetCurrentDirectory("..\\..\\Fonts");
 			Console.WriteLine(Directory.GetCurrentDirectory());
 
 			
@@ -59,6 +68,7 @@ namespace Clock
 		{
 			cbFonts_SelectedIndexChanged(sender, e);
 			Font = labelExample.Font;
+			Filename = cbFonts.SelectedItem.ToString();
 		}
 
 		private void btnApply_Click(object sender, EventArgs e)
