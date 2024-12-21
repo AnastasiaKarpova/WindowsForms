@@ -9,6 +9,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using System.Runtime.InteropServices;
+using Microsoft.Win32;
 
 namespace Clock
 {
@@ -25,7 +26,7 @@ namespace Clock
 			InitializeComponent();
 			//fontsProjects();
 			//fonts();
-			LoadFont();
+			MainFormLoad();
 			//labelTime.Font = new Font(font.Families[0], 31);
 			labelTime.BackColor = Color.LightBlue;
 			labelTime.ForeColor = Color.Blue;
@@ -46,6 +47,8 @@ namespace Clock
 			fontDialog = new ChooseFontForm();
 			
 		}
+		private void MainFormLoad()
+		{ }
 
 		void SetVisibility(bool visible)
 		{
@@ -198,10 +201,7 @@ namespace Clock
 		//{
 		//	labelTime.Font = new Font(font.Families[0], 31);
 		//}
-
-		private void LoadFont()
-		{ }
-
+				
 		private void cmShowControls_CheckedChanged(object sender, EventArgs e)
 		{
 			SetVisibility(cmShowControls.Checked);
@@ -227,5 +227,18 @@ namespace Clock
 
 		[DllImport("kernel32.dll")]
 		public static extern bool FreeConsole();
+
+		private void cmLoadOnWinStartup_CheckedChanged(object sender, EventArgs e)
+		{
+			RegistryKey rk = Registry.CurrentUser.OpenSubKey("SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Run", true);
+			if (cmLoadOnWinStartup.Checked) 
+			{
+				rk.SetValue("Clock", Application.ExecutablePath); 
+			}
+			else
+			{
+				rk.DeleteValue("Clock", false);
+			}
+		}
 	}
 }
