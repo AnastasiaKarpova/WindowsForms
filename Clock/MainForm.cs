@@ -84,7 +84,8 @@ namespace Clock
 		}
 		void LoadSettings()
 		{
-			Directory.SetCurrentDirectory("..\\..\\Fonts");
+			string execution_path = Path.GetDirectoryName(Application.ExecutablePath);
+			Directory.SetCurrentDirectory($"{execution_path}\\..\\..\\Fonts");
 			StreamReader sr = new StreamReader("Settings.ini");
 			cmTopmost.Checked = bool.Parse(sr.ReadLine());
 			cmShowControls.Checked = bool.Parse(sr.ReadLine());
@@ -98,6 +99,8 @@ namespace Clock
 			sr.Close();
 			fontDialog = new ChooseFontForm(font_name, font_size);
 			labelTime.Font = fontDialog.Font;
+			//RegistryKey rk = Registry.CurrentUser.OpenSubKey("SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Run", true);
+			//rk.GetValue("ClockPV_319");
 		}
 		private void timer_Tick(object sender, EventArgs e)
 		{
@@ -265,15 +268,25 @@ namespace Clock
 
 		private void cmLoadOnWinStartup_CheckedChanged(object sender, EventArgs e)
 		{
-			RegistryKey rk = Registry.CurrentUser.OpenSubKey("SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Run", true);
-			if (cmLoadOnWinStartup.Checked) 
+			//RegistryKey rk = Registry.CurrentUser.OpenSubKey("SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Run", true);
+			//if (cmLoadOnWinStartup.Checked) 
+			//{
+			//	rk.SetValue("Clock", Application.ExecutablePath); 
+			//}
+			//else
+			//{
+			//	rk.DeleteValue("Clock", false);
+			//}
+
+			string key_name = "ClockPV_319";
+			RegistryKey rk = Registry.CurrentUser.OpenSubKey("SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Run", true); //true откроет ветку на запись
+			if (cmLoadOnWinStartup.Checked)
 			{
-				rk.SetValue("Clock", Application.ExecutablePath); 
+				rk.SetValue(key_name, Application.ExecutablePath);
 			}
-			else
-			{
-				rk.DeleteValue("Clock", false);
-			}
+			else rk.DeleteValue(key_name, false);
+
+			rk.Dispose();
 		}
 
 		private void MainForm_FormClosing(object sender, FormClosingEventArgs e)
