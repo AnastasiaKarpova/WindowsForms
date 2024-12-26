@@ -19,7 +19,8 @@ namespace Clock
 	public partial class MainForm : Form
 	{
 		ChooseFontForm fontDialog = null;
-		
+		Alarms alarms = null;  
+
 		ColorDialog BackColorDialog;
 		ColorDialog ForeColorDialog;
 		//PrivateFontCollection font;
@@ -48,7 +49,7 @@ namespace Clock
 			cmShowConsole.Checked=true;
 			LoadSettings();
 			//fontDialog = new ChooseFontForm();
-			
+			alarms = new Alarms();
 		}
 		private void MainFormLoad()
 		{ }
@@ -293,6 +294,13 @@ namespace Clock
 		private void MainForm_FormClosing(object sender, FormClosingEventArgs e)
 		{
 			SaveSettings();
+		}
+
+		private void cmAlarms_Click(object sender, EventArgs e)
+		{
+			alarms.StartPosition = FormStartPosition.Manual;
+			alarms.Location = new Point(this.Location.X - alarms.Width, this.Location.Y*2);
+			alarms.ShowDialog();
 		}
 	}
 }

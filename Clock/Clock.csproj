@@ -47,6 +47,19 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="AddAlarmsForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="AddAlarmsForm.Designer.cs">
+      <DependentUpon>AddAlarmsForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Alarm.cs" />
+    <Compile Include="Alarms.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Alarms.Designer.cs">
+      <DependentUpon>Alarms.cs</DependentUpon>
+    </Compile>
     <Compile Include="ChooseFont.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -61,6 +74,13 @@
     </Compile>
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Week.cs" />
+    <EmbeddedResource Include="AddAlarmsForm.resx">
+      <DependentUpon>AddAlarmsForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Alarms.resx">
+      <DependentUpon>Alarms.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="ChooseFont.resx">
       <DependentUpon>ChooseFont.cs</DependentUpon>
     </EmbeddedResource>
