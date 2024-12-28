@@ -23,7 +23,7 @@ namespace Clock
 			if (Date != DateTime.MinValue) info += $"{Date}\t";
 			//info += Time.ToString(@"hh\\:mm\\:ss");
 			info += DateTime.Today.Add(Time).ToString("hh:mm:ss tt");
-			info += "\t";
+			info += "\t\t";
 			info += $"{Weekdays}\t";
 			info += $"{Filename}\t";
 			info += $"{Message}\t";

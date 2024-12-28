@@ -37,7 +37,7 @@ namespace Clock
 			clbWeekDays.GetItemChecked(index)).ToArray()
 			);
 			Console.WriteLine(week);
-			Alarm.Date = dtpDate.Enabled ? dtpDate.Value: DateTime.MinValue;
+			Alarm.Date = dtpDate.Enabled ? dtpDate.Value : DateTime.MinValue;
 			Alarm.Time = dtpTime.Value.TimeOfDay;
 			Alarm.Weekdays = week;
 			Alarm.Filename = lblAlarmFile.Text;
@@ -45,7 +45,12 @@ namespace Clock
 			if (Alarm.Filename == "File:")
 			{ 
 				this.DialogResult = DialogResult.None;
-				MessageBox.Show(this, "Выберите звуковой файл", "Warning", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+				MessageBox.Show
+					(this, 
+					"Выберите звуковой файл", 
+					"Warning", 
+					MessageBoxButtons.OK, 
+					MessageBoxIcon.Warning);
 			}
 		}
 
