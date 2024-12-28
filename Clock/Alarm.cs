@@ -6,16 +6,28 @@ using System.Threading.Tasks;
 
 namespace Clock
 {
-	internal class Alarm
+	public class Alarm
 	{
-		public DateTime date { get; set; }
-		public DateTime time { get; set; }
+		public DateTime Date { get; set; }
+		public TimeSpan Time { get; set; }
 		public Week Weekdays { get; set; }
 		public string Filename { get; set; }
 		public string Message { get; set; }
 		public Alarm()
 		{
 
+		}
+		public override string ToString()
+		{
+			string info = "";
+			if (Date != DateTime.MinValue) info += $"{Date}\t";
+			//info += Time.ToString(@"hh\\:mm\\:ss");
+			info += DateTime.Today.Add(Time).ToString("hh:mm:ss tt");
+			info += "\t";
+			info += $"{Weekdays}\t";
+			info += $"{Filename}\t";
+			info += $"{Message}\t";
+			return info;
 		}
 	}
 }

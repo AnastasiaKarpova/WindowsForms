@@ -12,10 +12,15 @@ namespace Clock
 {
 	public partial class AddAlarmsForm : Form
 	{
+		public Alarm Alarm { get; set; }
+		OpenFileDialog open = null;
 		public AddAlarmsForm()
 		{
 			InitializeComponent();
 			dtpDate.Enabled = false;
+			Alarm = new Alarm();
+			open = new OpenFileDialog();
+			open.Filter = "All sound files (*.mp3, *.wav, *.flac)|*mp3;*.wav;*.flac|MP-3 (*.mp3)|*.mp3|WAV (*.wav)|*.wav|FLAC (*.flac)|*.flac";
 		}
 
 		private void cbUseDate_CheckedChanged(object sender, EventArgs e)
@@ -25,11 +30,31 @@ namespace Clock
 
 		private void btnOK_Click(object sender, EventArgs e)
 		{
-			for(int i = 0; i < clbWeekDays.Items.Count; i++)
-			{
-				Console.Write(clbWeekDays.GetItemChecked(i) + "\t");
+			this.DialogResult = DialogResult.OK;
+			Week week = new Week
+			(
+				clbWeekDays.Items.Cast<object>().Select((item,index)=>
+			clbWeekDays.GetItemChecked(index)).ToArray()
+			);
+			Console.WriteLine(week);
+			Alarm.Date = dtpDate.Enabled ? dtpDate.Value: DateTime.MinValue;
+			Alarm.Time = dtpTime.Value.TimeOfDay;
+			Alarm.Weekdays = week;
+			Alarm.Filename = lblAlarmFile.Text;
+			Alarm.Message = rtbMessage.Text;
+			if (Alarm.Filename == "File:")
+			{ 
+				this.DialogResult = DialogResult.None;
+				MessageBox.Show(this, "Выберите звуковой файл", "Warning", MessageBoxButtons.OK, MessageBoxIcon.Warning);
 			}
-			Console.WriteLine();
+		}
+
+		private void btnFile_Click(object sender, EventArgs e)
+		{
+			if(open.ShowDialog() == DialogResult.OK)
+			{
+				lblAlarmFile.Text = open.FileName;
+			}
 		}
 	}
 }
