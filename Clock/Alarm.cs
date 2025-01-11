@@ -17,7 +17,7 @@ namespace Clock
 		public string Message { get; set; }
 		public Alarm()
 		{
-
+			Weekdays = new Week();
 		}
 		public Alarm(DateTime date, TimeSpan time, Week week, string filename, string message)
 		{

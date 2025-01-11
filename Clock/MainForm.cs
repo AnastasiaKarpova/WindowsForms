@@ -85,7 +85,6 @@ namespace Clock
 			//fontsProjects();
 			//fonts();
 		}
-
 		void SaveSettings()
 		{
 			StreamWriter sw = new StreamWriter("Settings.ini");

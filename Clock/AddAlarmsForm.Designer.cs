@@ -66,7 +66,7 @@
 			// 
 			this.dtpTime.CustomFormat = "hh:mm:ss";
 			this.dtpTime.Font = new System.Drawing.Font("Microsoft Sans Serif", 16.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-			this.dtpTime.Format = System.Windows.Forms.DateTimePickerFormat.Custom;
+			this.dtpTime.Format = System.Windows.Forms.DateTimePickerFormat.Time;
 			this.dtpTime.Location = new System.Drawing.Point(219, 56);
 			this.dtpTime.Name = "dtpTime";
 			this.dtpTime.ShowUpDown = true;
@@ -167,6 +167,7 @@
 			this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedToolWindow;
 			this.Name = "AddAlarmsForm";
 			this.Text = "AddAlarms";
+			this.Load += new System.EventHandler(this.AddAlarmsForm_Load);
 			this.ResumeLayout(false);
 			this.PerformLayout();
 
