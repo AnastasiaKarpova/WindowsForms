@@ -14,6 +14,7 @@ namespace Clock
 	{
 		public Alarm Alarm { get; set; }
 		OpenFileDialog open = null;
+		
 		public AddAlarmsForm()
 		{
 			InitializeComponent();
@@ -61,5 +62,6 @@ namespace Clock
 				lblAlarmFile.Text = open.FileName;
 			}
 		}
+				
 	}
 }

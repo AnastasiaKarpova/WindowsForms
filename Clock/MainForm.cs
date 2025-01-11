@@ -12,6 +12,8 @@ using System.Runtime.InteropServices;
 using Microsoft.Win32;
 using System.IO;
 using System.Diagnostics;
+using AxWMPLib;
+using System.Windows.Forms.VisualStyles;
 
 namespace Clock
 {
@@ -19,7 +21,8 @@ namespace Clock
 	public partial class MainForm : Form
 	{
 		ChooseFontForm fontDialog = null;
-		Alarms alarms = null;  
+		Alarms alarms = null;
+		Alarm nextAlarm = null;
 
 		ColorDialog BackColorDialog;
 		ColorDialog ForeColorDialog;
@@ -53,7 +56,19 @@ namespace Clock
 		}
 		private void MainFormLoad()
 		{ }
+		void CompareaAlarmsDEBUG()
+		{
+			Alarm alarm1 = new Alarm();
+			Alarm alarm2 = new Alarm();
 
+			alarm1.Date = DateTime.MinValue;
+			alarm1.Time = new TimeSpan(9, 5, 0);
+
+			alarm2.Date = DateTime.MinValue;
+			alarm2.Time = new TimeSpan(9, 11, 00);
+
+			Console.WriteLine(alarm1 < alarm2);
+		}
 		void SetVisibility(bool visible)
 		{
 			cbShowDate.Visible = visible;
@@ -63,7 +78,8 @@ namespace Clock
 			btnHideControls.Visible = visible;
 			this.TransparencyKey = visible ? Color.Empty : this.BackColor;
 			this.FormBorderStyle = visible ? FormBorderStyle.FixedToolWindow : FormBorderStyle.None;
-			this.ShowInTaskbar = visible;
+			this.ShowInTaskbar = visible; 
+			axWindowsMediaPlayer.Visible = visible;
 			//fontsProjects();
 			//fonts();
 		}
@@ -119,6 +135,8 @@ namespace Clock
 			notifyIcon.Text = "";
 			notifyIcon.Text = labelTime.Text;
 
+			if(alarms.LB_Alarms.Items.Count > 0) nextAlarm = alarms.LB_Alarms.Items.Cast<Alarm>().ToArray().Min();
+			if(nextAlarm != null) Console.WriteLine(nextAlarm);
 		}
 
 		private void btnHideControls_Click(object sender, EventArgs e)
@@ -302,5 +320,23 @@ namespace Clock
 			alarms.Location = new Point(this.Location.X - alarms.Width, this.Location.Y*2);
 			alarms.ShowDialog();
 		}
+
+		private void play_Alarm ()
+		{
+			axWindowsMediaPlayer.URL = @"C:\\Users\\OMEN\\source\\repos\\WindowsForms\\Clock\\Sounds\\4113_new_rington.ru_.mp3";
+			axWindowsMediaPlayer.settings.volume = 100;
+			axWindowsMediaPlayer.Ctlcontrols.play();
+			axWindowsMediaPlayer.Visible = true;
+			Console.WriteLine(alarms);
+		}
+		private void playerInvisible(object sender, AxWMPLib._WMPOCXEvents_PlayStateChangeEvent e)
+		{
+			if(axWindowsMediaPlayer.playState == WMPLib.WMPPlayState.wmppsMediaEnded)
+				axWindowsMediaPlayer.Visible = false;
+		}
+		//private void axWindowsMediaPlayer_Enter(object sender, EventArgs e)
+		//{
+
+		//}
 	}
 }
