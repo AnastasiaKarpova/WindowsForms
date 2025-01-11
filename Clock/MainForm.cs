@@ -53,21 +53,23 @@ namespace Clock
 			LoadSettings();
 			//fontDialog = new ChooseFontForm();
 			alarms = new Alarms();
+			Console.WriteLine(DateTime.MinValue);
+			CompareAlarmsDEBUG();
 		}
 		private void MainFormLoad()
 		{ }
-		void CompareaAlarmsDEBUG()
+		void CompareAlarmsDEBUG()
 		{
 			Alarm alarm1 = new Alarm();
 			Alarm alarm2 = new Alarm();
 
-			alarm1.Date = DateTime.MinValue;
+			alarm1.Date = new DateTime(2025, 01, 16);
 			alarm1.Time = new TimeSpan(9, 5, 0);
 
-			alarm2.Date = DateTime.MinValue;
+			alarm2.Date = new DateTime(1, 01, 1);
 			alarm2.Time = new TimeSpan(9, 11, 00);
 
-			Console.WriteLine(alarm1 < alarm2);
+			//Console.WriteLine(alarm1 < alarm2);
 		}
 		void SetVisibility(bool visible)
 		{
@@ -119,6 +121,22 @@ namespace Clock
 			//RegistryKey rk = Registry.CurrentUser.OpenSubKey("SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Run", true);
 			//rk.GetValue("ClockPV_319");
 		}
+		Alarm FindNextAlarm()
+		{
+			Alarm[] actualAlarms = 
+				alarms.LB_Alarms.Items.Cast<Alarm>().Where(a => a.Time > DateTime.Now.TimeOfDay).ToArray();
+			//Alarm nextAlarm = new Alarm(actualAlarms.Min());
+			
+			//if (nextAlarm.Time < DateTime.Now.TimeOfDay)
+			//{
+			//	foreach (Alarm a in alarms.LB_Alarms.Items)
+			//	{
+			//		if()
+			//	} 
+			//}
+			//return nextAlarm;
+			return actualAlarms.Min();
+		}
 		private void timer_Tick(object sender, EventArgs e)
 		{
 			labelTime.Text = DateTime.Now.ToString("hh:mm:ss tt", System.Globalization.CultureInfo.InvariantCulture);
@@ -135,7 +153,8 @@ namespace Clock
 			notifyIcon.Text = "";
 			notifyIcon.Text = labelTime.Text;
 
-			if(alarms.LB_Alarms.Items.Count > 0) nextAlarm = alarms.LB_Alarms.Items.Cast<Alarm>().ToArray().Min();
+			if (alarms.LB_Alarms.Items.Count > 0) nextAlarm = FindNextAlarm();
+				//nextAlarm = alarms.LB_Alarms.Items.Cast<Alarm>().ToArray().Min();
 			if(nextAlarm != null) Console.WriteLine(nextAlarm);
 		}
 
