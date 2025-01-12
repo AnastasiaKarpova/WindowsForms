@@ -46,5 +46,11 @@ namespace Clock
 				lbAlarms.Items[lbAlarms.SelectedIndex] = addAlarm.Alarm;
 			}
 		}
+
+		private void btnDelete_Click(object sender, EventArgs e)
+		{
+			this.lbAlarms.Items.RemoveAt(lbAlarms.SelectedIndex); 
+			
+		}
 	}
 }

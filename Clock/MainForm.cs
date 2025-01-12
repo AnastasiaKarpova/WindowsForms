@@ -55,6 +55,7 @@ namespace Clock
 			alarms = new Alarms();
 			Console.WriteLine(DateTime.MinValue);
 			CompareAlarmsDEBUG();
+			play_Alarm();
 		}
 		private void MainFormLoad()
 		{ }
@@ -151,10 +152,11 @@ namespace Clock
 			}
 			notifyIcon.Text = "";
 			notifyIcon.Text = labelTime.Text;
-
+			//play_Alarm();
 			if (alarms.LB_Alarms.Items.Count > 0) nextAlarm = FindNextAlarm();
 				//nextAlarm = alarms.LB_Alarms.Items.Cast<Alarm>().ToArray().Min();
 			if(nextAlarm != null) Console.WriteLine(nextAlarm);
+			
 		}
 
 		private void btnHideControls_Click(object sender, EventArgs e)
@@ -339,19 +341,21 @@ namespace Clock
 			alarms.ShowDialog();
 		}
 
-		private void play_Alarm ()
+		void play_Alarm ()
 		{
 			axWindowsMediaPlayer.URL = @"C:\\Users\\OMEN\\source\\repos\\WindowsForms\\Clock\\Sounds\\4113_new_rington.ru_.mp3";
 			axWindowsMediaPlayer.settings.volume = 100;
 			axWindowsMediaPlayer.Ctlcontrols.play();
 			axWindowsMediaPlayer.Visible = true;
-			Console.WriteLine(alarms);
+			//Console.WriteLine(alarms); 
+			
 		}
-		private void playerInvisible(object sender, AxWMPLib._WMPOCXEvents_PlayStateChangeEvent e)
+		public void playerInvisible(object sender, AxWMPLib._WMPOCXEvents_PlayStateChangeEvent e)
 		{
 			if(axWindowsMediaPlayer.playState == WMPLib.WMPPlayState.wmppsMediaEnded)
 				axWindowsMediaPlayer.Visible = false;
 		}
+
 		//private void axWindowsMediaPlayer_Enter(object sender, EventArgs e)
 		//{
 
