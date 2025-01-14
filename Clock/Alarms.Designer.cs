@@ -43,6 +43,7 @@
 			this.lbAlarms.Size = new System.Drawing.Size(455, 292);
 			this.lbAlarms.TabIndex = 0;
 			this.lbAlarms.DoubleClick += new System.EventHandler(this.lbAlarms_DoubleClick);
+			this.lbAlarms.KeyDown += new System.Windows.Forms.KeyEventHandler(this.lbAlarms_KeyDown);
 			// 
 			// btnOK
 			// 

@@ -39,18 +39,34 @@ namespace Clock
 
 		private void lbAlarms_DoubleClick(object sender, EventArgs e)
 		{
-			addAlarm.Alarm = lbAlarms.SelectedItem as Alarm;
-			if(addAlarm.ShowDialog() == DialogResult.OK)
+			if (lbAlarms.Items.Count > 0)
 			{
-				//lbAlarms.SelectedItem = new Alarm(addAlarm.Alarm);
-				lbAlarms.Items[lbAlarms.SelectedIndex] = addAlarm.Alarm;
+				if (lbAlarms.SelectedItems != null) 
+				{
+					addAlarm.Alarm = lbAlarms.SelectedItem as Alarm;
+					addAlarm.Location = new Point(this.Location.X + 25, this.Location.Y + 25);
+					if (addAlarm.ShowDialog() == DialogResult.OK)
+					{
+						//lbAlarms.SelectedItem = new Alarm(addAlarm.Alarm);
+						lbAlarms.Items[lbAlarms.SelectedIndex] = addAlarm.Alarm;
+					} 
+				}
+				else 
+					MessageBox.Show(this, "Выберите будильник", "Info", MessageBoxButtons.OK, MessageBoxIcon.Information);
 			}
+			else btnAdd_Click(sender, e);
 		}
 
 		private void btnDelete_Click(object sender, EventArgs e)
 		{
-			this.lbAlarms.Items.RemoveAt(lbAlarms.SelectedIndex); 
-			
+			//this.lbAlarms.Items.RemoveAt(lbAlarms.SelectedIndex); 
+			lbAlarms.Items.Remove(lbAlarms.SelectedItem);
+		}
+
+		private void lbAlarms_KeyDown(object sender, KeyEventArgs e)
+		{
+			if (e.KeyCode == Keys.Delete) btnDelete_Click(sender, e);
+
 		}
 	}
 }
