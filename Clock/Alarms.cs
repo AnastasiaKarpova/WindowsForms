@@ -53,6 +53,7 @@ namespace Clock
 				}
 				else 
 					MessageBox.Show(this, "Выберите будильник", "Info", MessageBoxButtons.OK, MessageBoxIcon.Information);
+				
 			}
 			else btnAdd_Click(sender, e);
 		}

@@ -150,10 +150,23 @@ namespace Clock
 				labelTime.Text += "\n";
 				labelTime.Text += DateTime.Now.DayOfWeek;
 			}
-			notifyIcon.Text = "";
+			//notifyIcon.Text = "";
 			notifyIcon.Text = labelTime.Text;
+
+			if(
+				nextAlarm != null &&
+				nextAlarm.Time.Hours == DateTime.Now.Hour && 
+				nextAlarm.Time.Minutes == DateTime.Now.Minute && 
+				nextAlarm.Time.Seconds == DateTime.Now.Second)
+			{
+				System.Threading.Thread.Sleep(1000);
+				MessageBox.Show(this, nextAlarm.ToString(), "Alarm", MessageBoxButtons.OK, MessageBoxIcon.Information);
+				//nextAlarm = FindNextAlarm();
+				//System.Threading.Thread.Sleep(1000);
+				nextAlarm = null;
+			}
 			//play_Alarm();
-			if (alarms.LB_Alarms.Items.Count > 0) nextAlarm = FindNextAlarm();
+			if (/*DateTime.Now.Second % 10 == 0 &&*/ alarms.LB_Alarms.Items.Count > 0) nextAlarm = FindNextAlarm();
 				//nextAlarm = alarms.LB_Alarms.Items.Cast<Alarm>().ToArray().Min();
 			if(nextAlarm != null) Console.WriteLine(nextAlarm);
 			
@@ -356,6 +369,7 @@ namespace Clock
 				axWindowsMediaPlayer.Visible = false;
 		}
 
+		
 		//private void axWindowsMediaPlayer_Enter(object sender, EventArgs e)
 		//{
 
