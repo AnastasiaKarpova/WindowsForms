@@ -54,8 +54,9 @@ namespace Clock
 			//fontDialog = new ChooseFontForm();
 			alarms = new Alarms();
 			Console.WriteLine(DateTime.MinValue);
-			CompareAlarmsDEBUG();
-			play_Alarm();
+			//CompareAlarmsDEBUG();
+			axWindowsMediaPlayer.Visible = false;
+			//play_Alarm();
 		}
 		private void MainFormLoad()
 		{ }
@@ -82,7 +83,6 @@ namespace Clock
 			this.TransparencyKey = visible ? Color.Empty : this.BackColor;
 			this.FormBorderStyle = visible ? FormBorderStyle.FixedToolWindow : FormBorderStyle.None;
 			this.ShowInTaskbar = visible; 
-			axWindowsMediaPlayer.Visible = visible;
 			//fontsProjects();
 			//fonts();
 		}
@@ -137,6 +137,17 @@ namespace Clock
 			//return nextAlarm;
 			return actualAlarms.Min();
 		}
+		bool CompareDates(DateTime date1, DateTime date2)
+		{
+			return date1.Year == date2.Year && date1.Month == date2.Month && date1.Day == date2.Day;
+		}
+		void PlayAlarm()
+		{
+			axWindowsMediaPlayer.URL = nextAlarm.Filename;
+			axWindowsMediaPlayer.settings.volume = 100;
+			axWindowsMediaPlayer.Ctlcontrols.play();
+			axWindowsMediaPlayer.Visible = true;
+		}
 		private void timer_Tick(object sender, EventArgs e)
 		{
 			labelTime.Text = DateTime.Now.ToString("hh:mm:ss tt", System.Globalization.CultureInfo.InvariantCulture);
@@ -155,12 +166,17 @@ namespace Clock
 
 			if(
 				nextAlarm != null &&
+				(nextAlarm.Date == DateTime.MinValue ? 
+				nextAlarm.Weekdays.Contains(DateTime.Now.DayOfWeek) : 
+				(CompareDates(nextAlarm.Date, DateTime.Now) /*|| nextAlarm.Date == DateTime.MinValue.Date*/)) &&
+				//nextAlarm.Weekdays.Contains(DateTime.Now.DayOfWeek) &&
 				nextAlarm.Time.Hours == DateTime.Now.Hour && 
 				nextAlarm.Time.Minutes == DateTime.Now.Minute && 
 				nextAlarm.Time.Seconds == DateTime.Now.Second)
 			{
 				System.Threading.Thread.Sleep(1000);
-				MessageBox.Show(this, nextAlarm.ToString(), "Alarm", MessageBoxButtons.OK, MessageBoxIcon.Information);
+				PlayAlarm();
+				//MessageBox.Show(this, nextAlarm.ToString(), "Alarm", MessageBoxButtons.OK, MessageBoxIcon.Information);
 				//nextAlarm = FindNextAlarm();
 				//System.Threading.Thread.Sleep(1000);
 				nextAlarm = null;
@@ -168,7 +184,7 @@ namespace Clock
 			//play_Alarm();
 			if (/*DateTime.Now.Second % 10 == 0 &&*/ alarms.LB_Alarms.Items.Count > 0) nextAlarm = FindNextAlarm();
 				//nextAlarm = alarms.LB_Alarms.Items.Cast<Alarm>().ToArray().Min();
-			if(nextAlarm != null) Console.WriteLine(nextAlarm);
+			if((object)nextAlarm != null) Console.WriteLine(nextAlarm);
 			
 		}
 
@@ -354,20 +370,20 @@ namespace Clock
 			alarms.ShowDialog();
 		}
 
-		void play_Alarm ()
-		{
-			axWindowsMediaPlayer.URL = @"C:\\Users\\OMEN\\source\\repos\\WindowsForms\\Clock\\Sounds\\4113_new_rington.ru_.mp3";
-			axWindowsMediaPlayer.settings.volume = 100;
-			axWindowsMediaPlayer.Ctlcontrols.play();
-			axWindowsMediaPlayer.Visible = true;
-			//Console.WriteLine(alarms); 
+		//void play_Alarm ()
+		//{
+		//	axWindowsMediaPlayer.URL = @"C:\\Users\\OMEN\\source\\repos\\WindowsForms\\Clock\\Sounds\\4113_new_rington.ru_.mp3";
+		//	axWindowsMediaPlayer.settings.volume = 100;
+		//	axWindowsMediaPlayer.Ctlcontrols.play();
+		//	axWindowsMediaPlayer.Visible = true;
+		//	//Console.WriteLine(alarms); 
 			
-		}
-		public void playerInvisible(object sender, AxWMPLib._WMPOCXEvents_PlayStateChangeEvent e)
-		{
-			if(axWindowsMediaPlayer.playState == WMPLib.WMPPlayState.wmppsMediaEnded)
-				axWindowsMediaPlayer.Visible = false;
-		}
+		//}
+		//public void playerInvisible(object sender, AxWMPLib._WMPOCXEvents_PlayStateChangeEvent e)
+		//{
+		//	if(axWindowsMediaPlayer.playState == WMPLib.WMPPlayState.wmppsMediaEnded)
+		//		axWindowsMediaPlayer.Visible = false;
+		//}
 
 		
 		//private void axWindowsMediaPlayer_Enter(object sender, EventArgs e)

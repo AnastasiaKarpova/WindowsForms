@@ -27,6 +27,7 @@ namespace Clock
 		private void cbUseDate_CheckedChanged(object sender, EventArgs e)
 		{
 			dtpDate.Enabled = cbUseDate.Checked;
+			clbWeekDays.Enabled = !cbUseDate.Checked;
 		}
 		void SetWeekDays(bool[] week)
 		{
@@ -71,6 +72,10 @@ namespace Clock
 
 		private void AddAlarmsForm_Load(object sender, EventArgs e)
 		{
+			//for (int i = 0; i < clbWeekDays.Items.Count; i++)
+			//{
+			//	clbWeekDays.SetItemChecked(i, true);
+			//}
 			if (Alarm.Date != DateTime.MinValue)
 			{
 				cbUseDate.Checked = true;
@@ -81,6 +86,7 @@ namespace Clock
 			SetWeekDays(Alarm.Weekdays.ExtractWeekDays());
 			lblAlarmFile.Text = Alarm.Filename;
 			rtbMessage.Text = Alarm.Message;
+
 		}
 	}
 }

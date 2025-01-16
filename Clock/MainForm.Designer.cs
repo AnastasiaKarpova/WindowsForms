@@ -254,18 +254,17 @@
 			// axWindowsMediaPlayer
 			// 
 			this.axWindowsMediaPlayer.Enabled = true;
-			this.axWindowsMediaPlayer.Location = new System.Drawing.Point(254, 363);
+			this.axWindowsMediaPlayer.Location = new System.Drawing.Point(22, 406);
 			this.axWindowsMediaPlayer.Name = "axWindowsMediaPlayer";
 			this.axWindowsMediaPlayer.OcxState = ((System.Windows.Forms.AxHost.State)(resources.GetObject("axWindowsMediaPlayer.OcxState")));
-			this.axWindowsMediaPlayer.Size = new System.Drawing.Size(112, 45);
+			this.axWindowsMediaPlayer.Size = new System.Drawing.Size(331, 44);
 			this.axWindowsMediaPlayer.TabIndex = 4;
-			this.axWindowsMediaPlayer.UseWaitCursor = true;
 			// 
 			// MainForm
 			// 
 			this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-			this.ClientSize = new System.Drawing.Size(367, 409);
+			this.ClientSize = new System.Drawing.Size(384, 582);
 			this.Controls.Add(this.axWindowsMediaPlayer);
 			this.Controls.Add(this.cbShowWeekDay);
 			this.Controls.Add(this.btnHideControls);

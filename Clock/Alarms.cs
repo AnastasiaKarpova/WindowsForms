@@ -28,6 +28,7 @@ namespace Clock
 
 		private void btnAdd_Click(object sender, EventArgs e)
 		{
+			//addAlarm = new AddAlarmsForm();
 			addAlarm.StartPosition = FormStartPosition.Manual;
 			addAlarm.Location = new Point(this.Location.X+25, this.Location.Y+25);
 			DialogResult result = addAlarm.ShowDialog();
