@@ -148,6 +148,12 @@ namespace Clock
 			axWindowsMediaPlayer.Ctlcontrols.play();
 			axWindowsMediaPlayer.Visible = true;
 		}
+		void SetPlayerInvisible(object sender, AxWMPLib._WMPOCXEvents_PlayStateChangeEvent e)
+		{
+			if (axWindowsMediaPlayer.playState == WMPLib.WMPPlayState.wmppsMediaEnded || 
+				axWindowsMediaPlayer.playState == WMPLib.WMPPlayState.wmppsStopped)
+				axWindowsMediaPlayer.Visible = false;
+		}
 		private void timer_Tick(object sender, EventArgs e)
 		{
 			labelTime.Text = DateTime.Now.ToString("hh:mm:ss tt", System.Globalization.CultureInfo.InvariantCulture);
