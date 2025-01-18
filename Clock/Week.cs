@@ -10,9 +10,10 @@ namespace Clock
 	{
 		public static readonly string[] Weekdays = new string[]{"Пн","Вт","Ср","Чт","Пт","Сб","Вс"};
 		byte week;
-		public Week()
+		public Week(byte week = 127)
 		{
-			week = 127/*191*/;
+			this.week = week;
+			//week = 127/*191*/;
 			//week += 192;
 		}
 		public Week(bool[] days)
@@ -60,6 +61,10 @@ namespace Clock
 			}
 			
 			return weekdays;
+		}
+		public string ToFileString()
+		{
+			return week.ToString();
 		}
 	}
 }

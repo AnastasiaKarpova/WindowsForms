@@ -51,8 +51,10 @@ namespace Clock
 			SetVisibility(false);
 			cmShowConsole.Checked=true;
 			LoadSettings();
+			
 			//fontDialog = new ChooseFontForm();
 			alarms = new Alarms();
+			LoadAlarms();
 			Console.WriteLine(DateTime.MinValue);
 			//CompareAlarmsDEBUG();
 			axWindowsMediaPlayer.Visible = false;
@@ -121,6 +123,51 @@ namespace Clock
 			//RegistryKey rk = Registry.CurrentUser.OpenSubKey("SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Run", true);
 			//rk.GetValue("ClockPV_319");
 		}
+		void SaveAlarms()
+		{
+			string execution_path = Path.GetDirectoryName(Application.ExecutablePath);
+			string filename = $"{execution_path}\\..\\..\\Fonts\\Alarms.ini";
+			StreamWriter sw = new StreamWriter(filename);
+			for(int i = 0; i < alarms.LB_Alarms.Items.Count; i++)
+			{
+				sw.WriteLine((alarms.LB_Alarms.Items[i] as Alarm).ToFileString());
+			}
+			sw.Close();
+			Process.Start("notepad", filename);
+		}
+		void LoadAlarms()
+		{
+			string execution_path = Path.GetExtension(Application.ExecutablePath);
+			string filename = $"{execution_path}\\..\\..\\Fonts\\Alarms.ini";
+			try
+			{
+				StreamReader sr = new StreamReader(filename);
+				while (!sr.EndOfStream)
+				{
+					string s_alarm = sr.ReadLine();
+					string[] s_alarm_parts = s_alarm.Split(',');
+					for (int i = 0; i < s_alarm_parts.Length; i++)
+					{
+						Console.Write(s_alarm_parts[i] + '\t');
+					}
+					Console.WriteLine();
+					Alarm alarm = new Alarm
+						(
+							s_alarm_parts[0] == "" ? new DateTime() : new DateTime(Convert.ToInt64(s_alarm_parts[0])),
+							new TimeSpan(Convert.ToInt64(s_alarm_parts[1])),
+							new Week(Convert.ToByte(s_alarm_parts[2])),
+							s_alarm_parts[3],
+							s_alarm_parts[4]
+						);
+					alarms.LB_Alarms.Items.Add(alarm);
+				}
+				sr.Close();
+			}
+			catch (Exception)
+			{
+				Console.WriteLine("Alarm not found");
+			}
+		}
 		Alarm FindNextAlarm()
 		{
 			Alarm[] actualAlarms = 
@@ -154,6 +201,10 @@ namespace Clock
 				axWindowsMediaPlayer.playState == WMPLib.WMPPlayState.wmppsStopped)
 				axWindowsMediaPlayer.Visible = false;
 		}
+		void SetPlayerInvisible(object sender, AxWMPLib._WMPOCXEvents_EndOfStreamEvent e)
+		{
+			axWindowsMediaPlayer.Visible = false;
+		}
 		private void timer_Tick(object sender, EventArgs e)
 		{
 			labelTime.Text = DateTime.Now.ToString("hh:mm:ss tt", System.Globalization.CultureInfo.InvariantCulture);
@@ -182,10 +233,11 @@ namespace Clock
 			{
 				System.Threading.Thread.Sleep(1000);
 				PlayAlarm();
+				if (nextAlarm.Message != "") MessageBox.Show(this, nextAlarm.Message, "Info", MessageBoxButtons.OK, MessageBoxIcon.Information);
 				//MessageBox.Show(this, nextAlarm.ToString(), "Alarm", MessageBoxButtons.OK, MessageBoxIcon.Information);
-				//nextAlarm = FindNextAlarm();
+				nextAlarm = FindNextAlarm();
 				//System.Threading.Thread.Sleep(1000);
-				nextAlarm = null;
+				//nextAlarm = null;
 			}
 			//play_Alarm();
 			if (/*DateTime.Now.Second % 10 == 0 &&*/ alarms.LB_Alarms.Items.Count > 0) nextAlarm = FindNextAlarm();
@@ -367,6 +419,7 @@ namespace Clock
 		private void MainForm_FormClosing(object sender, FormClosingEventArgs e)
 		{
 			SaveSettings();
+			SaveAlarms();
 		}
 
 		private void cmAlarms_Click(object sender, EventArgs e)
