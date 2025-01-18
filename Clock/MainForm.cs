@@ -235,9 +235,9 @@ namespace Clock
 				PlayAlarm();
 				if (nextAlarm.Message != "") MessageBox.Show(this, nextAlarm.Message, "Info", MessageBoxButtons.OK, MessageBoxIcon.Information);
 				//MessageBox.Show(this, nextAlarm.ToString(), "Alarm", MessageBoxButtons.OK, MessageBoxIcon.Information);
-				nextAlarm = FindNextAlarm();
+				//nextAlarm = FindNextAlarm();
 				//System.Threading.Thread.Sleep(1000);
-				//nextAlarm = null;
+				nextAlarm = null;
 			}
 			//play_Alarm();
 			if (/*DateTime.Now.Second % 10 == 0 &&*/ alarms.LB_Alarms.Items.Count > 0) nextAlarm = FindNextAlarm();
